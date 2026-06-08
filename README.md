@@ -99,43 +99,48 @@ python main.py
 Создайте файл `.env` в корне проекта:
 
 ```env
-## Telegram
-BOT_TOKEN=your_bot_token
-ADMIN_IDS=123456789,987654321
-BACKUP_CHAT_ID=-1001234567890
+# Telegram
+BOT_TOKEN="bot-token-here"
 
-## Базы данных
-# Формат: имя:версия_postgres (через запятую)
-DATABASES=vetavpn_db:18,pasarguardveta_db:18
+# Кто может управлять ботом (Telegram user id через запятую)
+ADMIN_IDS="3242432423,4234234324"
+
+# Куда отправлять backup-файлы (личный чат, группа или канал)
+# Если не указано — используется первый id из ADMIN_IDS
+BACKUP_CHAT_ID="-103626872433"
+
+# PostgreSQL базы: имя:версия через запятую
+DATABASES="postgres_db:18"
 
 # Или JSON:
-# DATABASES=[{"name":"mydb","postgres_version":"18"}]
+# DATABASES='[{"name":"postgres_db","postgres_version":"18"},{"name":"postgrestest_db","postgres_version":"18"}]'
 
-## Пути
-BACKUP_DIR=/backups
-LOG_FILE=/var/log/pg_backup_telegram.log
+# Пути (для Docker — как в docker-compose.yml)
+BACKUP_DIR="/backups"
+LOG_FILE="/var/log/pg_backup_telegram.log"
 
-## PostgreSQL
-POSTGRES_USER=postgres
-POSTGRES_BIN_BASE=/usr/lib/postgresql
-PGHOST=/var/run/postgresql
-PGPORT=5432
-PGPASSWORD=
+# Лимиты хранилища (GB). 0 = без ограничений
+BACKUP_MAX_SIZE_GB=1
+LOG_MAX_SIZE_GB=1
 
-## Режим доступа
-# true — pg_dump через sudo -u postgres (peer-auth на хосте)
-# false — прямой запуск pg_dump (Docker / TCP)
+# PostgreSQL
+POSTGRES_BIN_BASE="/usr/lib/postgresql"
+POSTGRES_USER="postgres"
 USE_SUDO=false
 
-## Расписание
-SCHEDULE_ENABLED=true
-SCHEDULE_HOUR=3
-SCHEDULE_MINUTE=0
-TIMEZONE=Europe/Moscow
+# Подключение к PostgreSQL (для Docker)
+PGHOST="127.0.0.1"
+PGPORT="5432"
+PGPASSWORD="your-password"
 
-## Лимиты хранилища (GB, 0 = без лимита)
-BACKUP_MAX_SIZE_GB=1.0
-LOG_MAX_SIZE_GB=1.0
+# Часовой пояс контейнера (имена файлов, логи, datetime)
+TZ="Europe/Moscow"
+
+# Расписание (ежедневный backup)
+SCHEDULE_ENABLED=true
+SCHEDULE_HOUR=22
+SCHEDULE_MINUTE=0
+TIMEZONE="Europe/Moscow"
 ```
 
 ### Пояснения к ключевым переменным
