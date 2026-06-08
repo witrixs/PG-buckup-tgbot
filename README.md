@@ -50,7 +50,7 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/witrixs/PG-buckup-tgbot
 cd PG-buckup-tgbot
 ```
 
