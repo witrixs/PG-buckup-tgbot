@@ -1,0 +1,15 @@
+services:
+  backup-bot:
+    build:
+      context: .
+      args:
+        PG_CLIENT_VERSIONS: "16 17 18"
+    container_name: pg-backup-bot
+    restart: unless-stopped
+    env_file: .env
+    network_mode: host
+    volumes:
+      - ./backups:/backups
+      - ./logs:/var/log
+      - ./bot:/app/bot:ro
+      - ./main.py:/app/main.py:ro
